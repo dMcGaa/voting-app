@@ -1,8 +1,7 @@
 # Voting App.
 JavaScript app that allows creation and voting on polls.
 
-From:
-http://www.freecodecamp.com/challenges/basejump-build-a-voting-app
+[Impetus](http://www.freecodecamp.com/challenges/basejump-build-a-voting-app)
 
 ## User Stories:
 1. As an authenticated user, I can keep my polls and come back later to access them.
