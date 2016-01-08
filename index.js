@@ -1,12 +1,13 @@
+require('dotenv').load();
 var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient,
   test = require('assert');
-  // Connection url
-// var dbUrl = 'mongodb://'+ process.env.MONGOLAB_USER + ":" + process.env.MONGOLAB_UPW + "@" +"ds039125.mongolab.com:39125/mylonelydb";
-// console.log(process.env.MONGOLAB_USER);
-var userName = "votingapp";
-var userPw = "free123zt";
+  
+  
+// Connection url
+var userName = process.env.MONGOLAB_USER || "null";
+var userPw = process.env.MONGOLAB_UPW || "null";
 var dbUrl = 'mongodb://'+ userName + ":" + userPw + "@" +"ds039125.mongolab.com:39125/mylonelydb";
 console.log(dbUrl);
 
