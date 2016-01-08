@@ -10,7 +10,7 @@
     "ejs": "^2.3.1",
     "express": "~4.9.x",
     "mongodb": "^2.x",
-    "dotenv": "^2.x"
+    "dotenv": "^1.x"
   },
   "engines": {
     "node": "4.X"
