@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient,
   test = require('assert');
+// var myDb = require('./public/js/db.js');
   
   
 // Connection url
@@ -30,13 +31,29 @@ app.listen(app.get('port'), function() {
 // Connect using MongoClient
 MongoClient.connect(dbUrl, function(err, db) {
   test.equal(null, err);
-  db.close();
-  // // Use the admin database for the operation
-  // var adminDb = db.admin();
-  // // List all the available databases
-  // adminDb.listDatabases(function(err, dbs) {
-  //   test.equal(null, err);
-  //   test.ok(dbs.databases.length > 0);
-  //   db.close();
-  // });
+  //db.close();
+  var testVar = {
+    _id: "myOne",
+    item: "something",
+    qty: 5,
+  }
+  // console.log(db.listCollections());
+  // db.listCollections(); //will print the collection object
+  // db.votingapp.insert(testVar);
+  // db.insert(testVar);
+  
+  var collection = db.collection("votingapp");
+  //insert to collection
+  collection.insert(testVar);
+  
+  //read from collection
+  collection.find({
+    qty: {$gt: 2}
+  }).toArray(function(err, docs){
+    if(err) throw err;
+    console.log(JSON.stringify(docs));
+    db.close();
+  })
+  
+  // db.close();  //if using find, error with sockets closed before db returns (this close happens first, since db find is asynchronous)
 });
