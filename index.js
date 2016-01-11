@@ -3,8 +3,10 @@ var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient,
   test = require('assert');
-// var myDb = require('./public/js/db.js');
 
+var bodyParser = require('body-parser');
+
+// var myDb = require('./public/js/db.js');
 
 // Connection url
 var userName = process.env.MONGOLAB_USER || "null";
@@ -29,6 +31,17 @@ app.use(function(req, res, next) {
   next();
 });
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+app.post("/submitVote", function(req, res){
+  var vName = req.body.voteName;
+  var vQty = parseInt(req.body.voteQty);
+  mongoConnectAdd(vName, vQty);
+  console.log("Added");
+  console.log(req.body.voteName);
+  res.send("Added");
+})
+
 app.get('/', function(request, response) {
   response.render('pages/index')
 });
@@ -36,8 +49,10 @@ app.get('/add/', function(request, response) {
   response.render('pages/add')
 });
 app.get('/view/', function(request, response) {
-  response.render('pages/view')
+  mongoConnectFind(response);
+  //response.render('pages/view');
 });
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -75,5 +90,45 @@ function mongoConnect() {
     })
 
     // db.close();  //if using find, error with sockets closed before db returns (this close happens first, since db find is asynchronous)
+  });
+}
+
+// Connect using MongoClient and view database
+function mongoConnectFind(response) {
+  MongoClient.connect(dbUrl, function(err, db) {
+    test.equal(null, err);
+    var collection = db.collection("votingapp");
+    //read from collection
+    collection.find({
+      qty: {
+        $gt: 2
+      }
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      mongoTemp = docs;
+      console.log(JSON.stringify(mongoTemp));
+      db.close();
+      response.render('pages/view');
+    })
+  });
+}
+
+// Connect using MongoClient and add to database
+function mongoConnectAdd(voteName, voteQty) {
+  MongoClient.connect(dbUrl, function(err, db) {
+    test.equal(null, err);
+    //db.close();
+
+    var testVar = {
+        item: voteName,
+        qty: voteQty
+      }
+    
+    var collection = db.collection("votingapp");
+    //insert to collection
+    console.log("adding " + JSON.stringify(testVar));
+    collection.insert(testVar);
+    db.close();
+
   });
 }
