@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Voting and Polls</title>
@@ -8,25 +9,27 @@
     <!-- load bootstrap and custom stylesheet -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/main.css">
-    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <!--<script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script type="text/javascript" src="js/view-db-items.js"></script>
+
 
 </head>
+
 <body>
 
-<div class="container">
-    <div class="jumbotron">
-        <h1 style = "font-size: 210%;">Voting App View using Ajax POST</h1>
-        <h2>View elements in database.</h2>
-        <button class = "btn" id="test-btn" onclick="loadData()">Click Me</button>
-        <script>
-            function loadData(){
-                document.getElementById("database-stuff").innerHTML = "Clicked";
-            }
-        </script>
-        <div id="database-stuff">Loading...</div>
-        <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 style="font-size: 210%;">Voting App View using Ajax POST</h1>
+            <h2>View elements in database.</h2>
+            <button class="btn" id="test-btn" onclick="loadDataP()">Load Data</button>
+            <div id="database-stuff">Idle</div>
+            <div id="database-resp">Response</div>
+            <div id="database-data">Data</div>
+            <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
+        </div>
     </div>
-</div>
-    
+
 </body>
+
 </html>
