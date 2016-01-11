@@ -46,13 +46,15 @@ app.get('/', function(request, response) {
   response.render('pages/index')
 });
 app.get('/add/', function(request, response) {
-  response.render('pages/add')
+  response.render('pages/add');
 });
 app.get('/view/', function(request, response) {
   mongoConnectFind(response);
   //response.render('pages/view');
 });
-
+app.get('/viewAjax/', function(request, response) {
+  response.render('pages/viewAjax');
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting and Polls</title>
+
+    <!-- CSS -->
+    <!-- load bootstrap and custom stylesheet -->
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 style = "font-size: 210%;">Voting App View using Ajax POST</h1>
+        <h2>View elements in database.</h2>
+        <button class = "btn" id="test-btn" onclick="loadData()">Click Me</button>
+        <script>
+            function loadData(){
+                document.getElementById("database-stuff").innerHTML = "Clicked";
+            }
+        </script>
+        <div id="database-stuff">Loading...</div>
+        <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
+    </div>
+</div>
+    
+</body>
+</html>
