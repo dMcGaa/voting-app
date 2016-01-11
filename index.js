@@ -42,6 +42,18 @@ app.post("/submitVote", function(req, res){
   res.send("Added");
 })
 
+app.post("/loadDatabase", function(req, res){
+  // mongoConnectFind(response);
+  // res.send("Added");
+  console.log("load database was clicked");
+  mongoConnectFind2(function(){
+    console.log("done loading");
+    res.send(mongoTemp);
+  });
+  // res.send(mongoConnectFind2());
+  
+})
+
 app.get('/', function(request, response) {
   response.render('pages/index')
 });
@@ -111,6 +123,25 @@ function mongoConnectFind(response) {
       console.log(JSON.stringify(mongoTemp));
       db.close();
       response.render('pages/view');
+    })
+  });
+}
+
+function mongoConnectFind2(callback) {
+  MongoClient.connect(dbUrl, function(err, db) {
+    test.equal(null, err);
+    var collection = db.collection("votingapp");
+    //read from collection
+    collection.find({
+      qty: {
+        $gt: 2
+      }
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      mongoTemp = docs;
+      console.log(JSON.stringify(mongoTemp));
+      db.close();
+      callback();//callback once response is obtained (Asynchronous)
     })
   });
 }
