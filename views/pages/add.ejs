@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Voting and Polls</title>
@@ -8,25 +9,36 @@
     <!-- load bootstrap and custom stylesheet -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/main.css">
+    <script type="text/javascript" src="js/view-db-items.js"></script>
 
 </head>
+
 <body>
 
-<div class="container">
-    <div class="jumbotron">
-        <h1 style = "font-size: 210%;">Voting App Add</h1>
-        <h2>Add element to database.</h2>
-        <form method = "post" action = "/submitVote">
-            Item:<br>
-            <input type = "text" name="voteName"><br>
-            Qty:<br>
-            <input type = "text" name="voteQty"><br>
-            <input type="submit" value="Submit">
-        </form>
-        <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
-        <p style = "font-size: 80%;"><i>updated 2016-01-09</i></p>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 style="font-size: 210%;">Voting App Add</h1>
+            <h2>Add element to database.</h2>
+            <form method="post" action="/addElement">
+                Item:
+                <br>
+                <input type="text" name="voteName">
+                <br> Qty:
+                <br>
+                <input type="text" name="voteQty">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
+            <p id="dateStamp" style="font-size: 80%;"><i></i></p>
+            <script>
+                var x = new Date(document.lastModified);
+                document.getElementById("dateStamp").innerHTML = "Last Modified: " + x;
+            </script>
+
+        </div>
     </div>
-</div>
-    
+
 </body>
+
 </html>

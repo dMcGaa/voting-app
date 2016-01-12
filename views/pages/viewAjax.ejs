@@ -27,6 +27,11 @@
             <div id="database-resp">Response</div>
             <div id="database-data">Data</div>
             <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
+            <p id="dateStamp" style="font-size: 80%;"><i></i></p>
+            <script>
+                var x = new Date(document.lastModified);
+                document.getElementById("dateStamp").innerHTML = "Last Modified: " + x;
+            </script>
         </div>
     </div>
 
