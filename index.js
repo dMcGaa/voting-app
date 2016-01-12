@@ -40,7 +40,17 @@ app.post("/submitVote", function(req, res){
   console.log(req.body.voteName);
   res.send("Added");
 })
-
+app.post("/addElement", function(req, res){
+  var addVar = {};
+  addVar.vName = req.body.voteName;
+  addVar.vQty = parseInt(req.body.voteQty);
+  
+  console.log("adding element");
+  mongoAdd(addVar, function(){
+    console.log("done adding");
+    res.send(mongoTemp);
+  });
+})
 app.post("/loadDatabase", function(req, res){
   console.log("load database was clicked");
   mongoFind(function(){
@@ -91,22 +101,16 @@ function mongoFind(callback) {
     })
 }
 
-// Connect using MongoClient and add to database
-function mongoConnectAdd(voteName, voteQty) {
-  MongoClient.connect(dbUrl, function(err, db) {
-    test.equal(null, err);
-    //db.close();
-
+function mongoAdd(addVar, callback) {
     var testVar = {
-        item: voteName,
-        qty: voteQty
+        item: addVar.vName ,
+        qty: addVar.vQty
       }
-    
-    var collection = db.collection("votingapp");
+
+    var collection = dbConn.collection("votingapp");
     //insert to collection
     console.log("adding " + JSON.stringify(testVar));
     collection.insert(testVar);
-    db.close();
-
-  });
+    //catch WriteConcernException
+    callback();
 }
