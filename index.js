@@ -6,8 +6,6 @@ var MongoClient = require('mongodb').MongoClient,
 
 var bodyParser = require('body-parser');
 
-// var myDb = require('./public/js/db.js');
-
 // Connection url
 var userName = process.env.MONGOLAB_USER || "null";
 var userPw = process.env.MONGOLAB_UPW || "null";
@@ -44,19 +42,11 @@ app.post("/submitVote", function(req, res){
 })
 
 app.post("/loadDatabase", function(req, res){
-  // mongoConnectFind(response);
-  // res.send("Added");
   console.log("load database was clicked");
-  // mongoConnectFind2(function(){
-  //   console.log("done loading");
-  //   res.send(mongoTemp);
-  // });
   mongoFind(function(){
     console.log("done loading");
     res.send(mongoTemp);
   });
-  // res.send(mongoConnectFind2());
-  
 })
 
 app.get('/', function(request, response) {
@@ -66,8 +56,8 @@ app.get('/add/', function(request, response) {
   response.render('pages/add');
 });
 app.get('/view/', function(request, response) {
-  mongoConnectFind(response);
-  //response.render('pages/view');
+  // mongoConnectFind(response);
+  response.render('pages/view');
 });
 app.get('/viewAjax/', function(request, response) {
   response.render('pages/viewAjax');
@@ -83,45 +73,6 @@ function mongoConnect() {
     test.equal(null, err);
     dbConn = db;  //mongodb connection instance
     // db.close();  //no need to close, let application termination handle this
-  });
-}
-
-// Connect using MongoClient and view database
-function mongoConnectFind(response) {
-  MongoClient.connect(dbUrl, function(err, db) {
-    test.equal(null, err);
-    var collection = db.collection("votingapp");
-    //read from collection
-    collection.find({
-      qty: {
-        $gt: 2
-      }
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      db.close();
-      response.render('pages/view');
-    })
-  });
-}
-
-function mongoConnectFind2(callback) {
-  MongoClient.connect(dbUrl, function(err, db) {
-    test.equal(null, err);
-    var collection = db.collection("votingapp");
-    //read from collection
-    collection.find({
-      qty: {
-        $gt: 2
-      }
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      db.close();
-      callback();//callback once response is obtained (Asynchronous)
-    })
   });
 }
 
