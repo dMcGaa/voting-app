@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Voting and Polls</title>
@@ -10,21 +11,26 @@
     <link rel="stylesheet" href="stylesheets/main.css">
 
 </head>
+
 <body>
 
-<div class="container">
-    <div class="jumbotron">
-        <h1 style = "font-size: 210%;">Voting App View</h1>
-        <h2>View elements in database.</h2>
-        <p>One: <%=JSON.stringify(mongoTemp)%></p>
-        <p><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></p>
-        <p id="dateStamp" style="font-size: 80%;"><i></i></p>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 style="font-size: 210%;">Voting App View</h1>
+            <h2>View elements in database.</h2>
+            <p>One:
+                <%=JSON.stringify(mongoTemp)%>
+            </p>
+            <br>
+            <div id="dateStamp" style="font-size: 80%;"><i></i></div>
+            <div style="font-size: 80%;"><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></div>
             <script>
                 var x = new Date(document.lastModified);
                 document.getElementById("dateStamp").innerHTML = "Last Modified: " + x;
             </script>
+        </div>
     </div>
-</div>
-    
+
 </body>
+
 </html>
