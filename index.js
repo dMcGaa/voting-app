@@ -32,14 +32,7 @@ app.use(function(req, res, next) {
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-app.post("/submitVote", function(req, res){
-  var vName = req.body.voteName;
-  var vQty = parseInt(req.body.voteQty);
-  mongoConnectAdd(vName, vQty);
-  console.log("Added");
-  console.log(req.body.voteName);
-  res.send("Added");
-})
+
 app.post("/addElement", function(req, res){
   var addVar = {};
   addVar.vName = req.body.voteName;
@@ -48,7 +41,7 @@ app.post("/addElement", function(req, res){
   console.log("adding element");
   mongoAdd(addVar, function(){
     console.log("done adding");
-    res.send(mongoTemp);
+    // res.send(mongoTemp);
   });
 })
 app.post("/loadDatabase", function(req, res){
