@@ -44,6 +44,17 @@ app.post("/addElement", function(req, res){
     // res.send(mongoTemp);
   });
 })
+app.post("/addElement", function(req, res){
+  var addVar = {};
+  addVar.vName = req.body.voteName;
+  addVar.vQty = parseInt(req.body.voteQty);
+  
+  console.log("adding element");
+  mongoAdd(addVar, function(){
+    console.log("done adding");
+    // res.send(mongoTemp);
+  });
+})
 app.post("/loadDatabase", function(req, res){
   console.log("load database was clicked");
   mongoFind(function(){
@@ -58,12 +69,18 @@ app.get('/', function(request, response) {
 app.get('/add/', function(request, response) {
   response.render('pages/add');
 });
+app.get('/newPoll/', function(request, response) {
+  response.render('pages/newPoll');
+});
 app.get('/view/', function(request, response) {
   // mongoConnectFind(response);
   response.render('pages/view');
 });
 app.get('/viewAjax/', function(request, response) {
   response.render('pages/viewAjax');
+});
+app.get('/viewPolls/', function(request, response) {
+  response.render('pages/viewPolls');
 });
 
 app.listen(app.get('port'), function() {
