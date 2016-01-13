@@ -51,7 +51,7 @@ app.post("/addPoll", function(req, res){
   };
   addPoll.pollName = req.body.pQuest;
   var option = {};
-  option.optionName = parseInt(req.body.pOption1);
+  option.optionName = req.body.pOption1;
   option.optionCount = 0;
   addPoll.pollOptions.push(option);
   
@@ -150,7 +150,12 @@ function mongoAddPoll(addPoll, callback) {
     var collection = dbConn.collection("votingapp");
     //insert to collection
     console.log("adding " + JSON.stringify(testVar));
-    collection.insert(testVar);
+    collection.insert(testVar, function(err, docsInserted){
+      if (err) throw err;
+      // console.log(docsInserted); //view all insert
+      console.log(docsInserted.ops[0]._id); //view one insert, and parameters
+      //possibly have callback here, with return value and link to inserted poll.
+    });
     //catch WriteConcernException
     callback();
 }
