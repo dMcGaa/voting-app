@@ -11,6 +11,7 @@ var userName = process.env.MONGOLAB_USER || "null";
 var userPw = process.env.MONGOLAB_UPW || "null";
 var dbUrl = 'mongodb://' + userName + ":" + userPw + "@" + "ds039125.mongolab.com:39125/mylonelydb";
 var mongoTemp = {};
+var requestedPoll = {};
 
 console.log(dbUrl);
 var dbConn;
@@ -27,6 +28,7 @@ app.set('view engine', 'ejs');
 // Give Views/Layouts direct access to data.
 app.use(function(req, res, next) {
   res.locals.mongoTemp = mongoTemp;
+  res.locals.requestedPoll = requestedPoll;
   next();
 });
 
@@ -54,6 +56,8 @@ app.post("/addPoll", function(req, res){
   option.optionName = req.body.pOption1;
   option.optionCount = 0;
   addPoll.pollOptions.push(option);
+  option.optionName = req.body.pOption2;
+  addPoll.pollOptions.push(option);
   
   console.log("adding poll " + JSON.stringify(addPoll));
   mongoAddPoll(addPoll, function(){
@@ -72,6 +76,14 @@ app.post("/loadDatabase", function(req, res){
 app.post("/viewAllPolls", function(req, res){
   console.log("retrieving all polls");
   mongoFindPoll(function(){
+    console.log("done loading");
+    res.send(mongoTemp);
+  });
+})
+app.post("/viewOnePoll", function(req, res){
+  console.log("retrieving one poll");
+  var reqPoll = req.body.pollNumber;
+  mongoFindOnePoll(reqPoll, function(){
     console.log("done loading");
     res.send(mongoTemp);
   });
@@ -98,7 +110,21 @@ app.get('/viewAjax/', function(request, response) {
 app.get('/viewPolls/', function(request, response) {
   response.render('pages/viewPolls');
 });
-
+app.get('/takePoll/*', function(request, response) {
+  var str = request.url;
+  str = str.slice(("/takePoll/").length);
+  if (str.match(/poll/)){
+    str = str.slice(("poll").length);
+    requestedPoll = str;
+    console.log(requestedPoll);  
+    //get database poll
+    // response.render('pages/takePoll');
+  }
+  else{
+    str = "not valid url for poll"
+  }
+  response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
+});
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -161,6 +187,21 @@ function mongoAddPoll(addPoll, callback) {
 }
 
 function mongoFindPoll(callback) {
+    var collection = dbConn.collection("votingapp");
+    //read from collection
+    collection.find({
+      poll_name: {
+        $exists: true
+      }
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      mongoTemp = docs;
+      console.log(JSON.stringify(mongoTemp));
+      callback();//callback once response is obtained (Asynchronous)
+    })
+}
+
+function mongoFindOnePoll(callback) {
     var collection = dbConn.collection("votingapp");
     //read from collection
     collection.find({

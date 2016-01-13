@@ -21,13 +21,9 @@
     <div class="container">
         <div class="jumbotron">
             <h1><a href = "/">Home</a></h1>
-            <h1 style="font-size: 210%;">Voting App View</h1>
-            <h2>View elements in database.</h2>
-            <button class="btn" id="test-btn" onclick="viewAllPolls()">Load Data</button>
-            <div id="database-stuff">Idle</div>
-            <div id="database-resp">Response</div>
+            <h1 style="font-size: 210%;">Take Poll</h1>
             <div id="database-data">Data</div>
-            <br>
+            <div id="poll-number">Poll ID: <%=requestedPoll%></div>
             <div id="dateStamp" style="font-size: 80%;"><i></i></div>
             <div style="font-size: 80%;"><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></div>
             <script>

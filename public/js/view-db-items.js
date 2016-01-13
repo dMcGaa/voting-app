@@ -29,6 +29,13 @@ function viewAllPolls() {
     
 }
 
+function viewAllPolls() {
+    var promise = promiseOnePoll();
+    promise.success(function (data){
+        $("#database-data").html(JSON.stringify(data));
+    })
+}
+
 function testAjaxP(){
     return $.ajax({
         url: "/loadDatabase",
@@ -37,6 +44,13 @@ function testAjaxP(){
 }
 
 function promiseAllPolls(){
+    return $.ajax({
+        url: "/viewAllPolls",
+        type: "POST"
+    });
+}
+
+function promiseOnePoll(){
     return $.ajax({
         url: "/viewAllPolls",
         type: "POST"
