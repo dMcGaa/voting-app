@@ -44,14 +44,20 @@ app.post("/addElement", function(req, res){
     // res.send(mongoTemp);
   });
 })
-app.post("/addElement", function(req, res){
-  var addVar = {};
-  addVar.vName = req.body.voteName;
-  addVar.vQty = parseInt(req.body.voteQty);
+app.post("/addPoll", function(req, res){
+  var addPoll = {
+    pollName: "",
+    pollOptions: []
+  };
+  addPoll.pollName = req.body.pQuest;
+  var option = {};
+  option.optionName = parseInt(req.body.pOption1);
+  option.optionCount = 0;
+  addPoll.pollOptions.push(option);
   
-  console.log("adding element");
-  mongoAdd(addVar, function(){
-    console.log("done adding");
+  console.log("adding poll " + JSON.stringify(addPoll));
+  mongoAddPoll(addPoll, function(){
+    console.log("done adding poll");
     // res.send(mongoTemp);
   });
 })
@@ -62,6 +68,16 @@ app.post("/loadDatabase", function(req, res){
     res.send(mongoTemp);
   });
 })
+
+app.post("/viewAllPolls", function(req, res){
+  console.log("retrieving all polls");
+  mongoFindPoll(function(){
+    console.log("done loading");
+    res.send(mongoTemp);
+  });
+})
+
+
 
 app.get('/', function(request, response) {
   response.render('pages/index')
@@ -123,4 +139,33 @@ function mongoAdd(addVar, callback) {
     collection.insert(testVar);
     //catch WriteConcernException
     callback();
+}
+
+function mongoAddPoll(addPoll, callback) {
+    var testVar = {
+        poll_name: addPoll.pollName,
+        poll_options: addPoll.pollOptions
+      }
+
+    var collection = dbConn.collection("votingapp");
+    //insert to collection
+    console.log("adding " + JSON.stringify(testVar));
+    collection.insert(testVar);
+    //catch WriteConcernException
+    callback();
+}
+
+function mongoFindPoll(callback) {
+    var collection = dbConn.collection("votingapp");
+    //read from collection
+    collection.find({
+      poll_name: {
+        $exists: true
+      }
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      mongoTemp = docs;
+      console.log(JSON.stringify(mongoTemp));
+      callback();//callback once response is obtained (Asynchronous)
+    })
 }
