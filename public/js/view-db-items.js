@@ -1,5 +1,7 @@
 $(document).ready(function(){
     // $("#database-stuff2").hide();
+    $("#database-status").hide();
+    
 })
 
 function loadDataP() {
