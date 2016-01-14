@@ -17,20 +17,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">VoteOr</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/">Sign Up</a></li>
-                <li><a href="/">Log In</a></li>
-            </ul>
-        </div>
-    </nav>
+
+    <header>
+        <% include ../partials/header.ejs %>
+    </header>
 
     <div class="container">
         <div class="jumbotron">
@@ -42,14 +32,12 @@
             <div id="database-resp">Response</div>
             <div id="database-data">Data</div>
             <br>
-            <div id="dateStamp" style="font-size: 80%;"><i></i></div>
-            <div style="font-size: 80%;"><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></div>
-            <script>
-                var x = new Date(document.lastModified);
-                document.getElementById("dateStamp").innerHTML = "Last Modified: " + x;
-            </script>
         </div>
     </div>
+
+    <footer>
+        <% include ../partials/footer.ejs %>
+    </footer>
 
 </body>
 
