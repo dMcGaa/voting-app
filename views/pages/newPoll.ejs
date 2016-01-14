@@ -14,19 +14,37 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">VoteOr</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Sign Up</a></li>
+                <li><a href="/">Log In</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="jumbotron">
             <h1><a href = "/">Home</a></h1>
             <h1 style="font-size: 210%;">Voting App Add New Poll</h1>
             <h2>Add poll to database.</h2>
-            
+
             <form method="post" action="/addPoll">
-                Question:<br>
-                <input type="text" name="pQuest"><br>
-                Options: <br>
-                <input type="text" name="pOption1"><br>
-                <input type="text" name="pOption2"><br>
+                Question:
+                <br>
+                <input type="text" name="pQuest">
+                <br> Options:
+                <br>
+                <input type="text" name="pOption1">
+                <br>
+                <input type="text" name="pOption2">
+                <br>
                 <input type="submit" value="Submit">
             </form>
             <br>

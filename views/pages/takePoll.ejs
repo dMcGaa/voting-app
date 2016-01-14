@@ -9,8 +9,7 @@
     <!-- load bootstrap and custom stylesheet -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/main.css">
-    <!--<script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
     <script type="text/javascript" src="js/view-db-items.js"></script>
 
 
@@ -18,13 +17,31 @@
 
 <body>
 
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">VoteOr</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Sign Up</a></li>
+                <li><a href="/">Log In</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="jumbotron">
-            <h1><a href = "/">Home</a></h1>
+
+
             <h1 style="font-size: 210%;">Take Poll</h1>
             <div id="database-status">Status</div>
             <div id="database-data">Data</div>
-            <div id="poll-number">Poll ID: <%=requestedPoll%></div>
+            <div id="poll-number">Poll ID:
+                <%=requestedPoll%>
+            </div>
             <div id="dateStamp" style="font-size: 80%;"><i></i></div>
             <div style="font-size: 80%;"><a href="https://github.com/dMcGaa/voting-app.git">GitHub</a></div>
             <script>
