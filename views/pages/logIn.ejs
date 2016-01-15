@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Voting and Polls</title>
+
+    <!-- CSS -->
+    <!-- load bootstrap and custom stylesheet -->
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <script type="text/javascript" src="js/view-db-items.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <% include ../partials/header.ejs %>
+    </header>
+
+     <div class="container">
+        <div class="jumbotron">
+            <h1 style="font-size: 210%;">Log In to VoteOr</h1>
+            <form method="post" action="/logInUser">
+                Email:<br>
+                <input type="text" name="logInEmail"><br>
+                Password:<br>
+                <input type="text" name="logInPass"><br>
+                <input type="submit" value="Submit">
+            </form>
+            <br>
+        </div>
+    </div>
+
+    <footer>
+        <% include ../partials/footer.ejs %>
+    </footer>
+
+</body>
+
+</html>

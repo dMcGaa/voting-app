@@ -65,6 +65,12 @@ app.post("/addPoll", function(req, res){
     // res.send(mongoTemp);
   });
 })
+app.post("/addUser", function(req, res){
+  console.log("Add User"); //todo
+})
+app.post("/logInUser", function(req, res){
+  console.log("Log In");  //todo
+})
 app.post("/loadDatabase", function(req, res){
   console.log("load database was clicked");
   mongoFind(function(){
