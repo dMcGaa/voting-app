@@ -56,6 +56,7 @@ app.post("/addPoll", function(req, res){
   var option = [];
   var tempStr = "";
   
+  //regex to get all "pOption"
   tempStr = req.body.pOption1;
   option.push(tempStr);
   option.push(0); //initialize vote to 0
