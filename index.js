@@ -106,6 +106,14 @@ app.get('/add/', function(request, response) {
 app.get('/newPoll/', function(request, response) {
   response.render('pages/newPoll');
 });
+app.get('/signUp/', function(request, response) {
+  // mongoConnectFind(response);
+  response.render('pages/signUp');
+});
+app.get('/logIn/', function(request, response) {
+  // mongoConnectFind(response);
+  response.render('pages/logIn');
+});
 app.get('/view/', function(request, response) {
   // mongoConnectFind(response);
   response.render('pages/view');
