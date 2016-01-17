@@ -79,8 +79,16 @@ app.post("/addPoll", function(req, res){
 app.post("/addUser", function(req, res){
   console.log("Add User"); //todo
   console.log(req.body);
-  console.log(req.body.nuName + " " + req.body.nuEmail + " " + req.body.nuPass + " " + req.body.nuPassConfirm);
-  res.send(true);  //send success value for the AJAX post
+  var newUser = {};
+  newUser.name = req.body.nuName;
+  newUser.email = req.body.nuEmail;
+  newUser.passw = req.body.nuPass;
+  console.log(newUser);
+  mongoAddUser(newUser, function(){
+    console.log("done adding user");
+    res.send(mongoTemp);
+  });
+  // res.send(true);  //send success value for the AJAX post
 })
 app.post("/logInUser", function(req, res){
   console.log("Log In");  //todo
@@ -100,6 +108,16 @@ app.post("/viewAllPolls", function(req, res){
     res.send(mongoTemp);
   });
 })
+app.post("/checkUser", function(req, res){
+  console.log("checking db user");
+  // console.log(req.body);
+  mongoCheckUser(req.body.nuName, function(){
+    console.log("done user search");
+    res.send(mongoTemp);
+  });
+  // res.send(true);
+})
+
 app.post("/viewOnePoll", function(req, res){
   console.log("retrieving one poll");
   var reqPoll = req.body.pollNumber;
@@ -236,6 +254,37 @@ function mongoFindOnePoll(callback) {
       poll_name: {
         $exists: true
       }
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      mongoTemp = docs;
+      console.log(JSON.stringify(mongoTemp));
+      callback();//callback once response is obtained (Asynchronous)
+    })
+}
+function mongoAddUser(newUser, callback) {
+    var testVar = {
+        uName: newUser.name,
+        uEmail: newUser.email,
+        uPass: newUser.passw
+      }
+
+    var collection = dbConn.collection("votingapp");
+    //insert to collection
+    console.log("adding " + JSON.stringify(testVar));
+    collection.insert(testVar, function(err, docsInserted){
+      if (err) throw err;
+      // console.log(docsInserted); //view all insert
+      console.log(docsInserted.ops[0]._id); //view one insert, and parameters
+      //possibly have callback here, with return value and link to inserted poll.
+    });
+    //catch WriteConcernException
+    callback();
+}
+function mongoCheckUser(uName, callback) {
+    var collection = dbConn.collection("votingapp");
+    //read from collection
+    collection.find({
+      uName: uName
     }).toArray(function(err, docs) {
       if (err) throw err;
       mongoTemp = docs;

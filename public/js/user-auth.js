@@ -9,9 +9,11 @@ $(document).ready(function() {
             data: $("#nUser").serialize(),
             success: function(data) {
                 $("#database-data").html("Added");
+                $("#nUser").hide();
+                checkUser();
             }
         })
-        e.preventDefault();  //must have to prevent form from submitting
+        e.preventDefault(); //must have to prevent form from submitting
     })
 
 })
@@ -35,8 +37,8 @@ function userLogin() {
     })
 }
 
-function addUser() {
-    var promise = promiseAddUser();
+function checkUser() {
+    var promise = promiseCheckUser();
     promise.success(function(data) {
         $("#database-data").html(JSON.stringify(data));
     })
@@ -49,10 +51,11 @@ function promiseLogin() {
     });
 }
 
-function promiseAddUser() {
+function promiseCheckUser() {
     return $.ajax({
-        url: "/addUser",
-        type: "POST"
+        url: "/checkUser",
+        type: "POST",
+        data: $("#nUser").serialize()
     });
 }
 
@@ -75,7 +78,7 @@ function validateNewUser() {
     if (pw1 !== pw2) {
         isValid = false;
     }
-    $("#database-data").html("Valid");
+    // $("#database-data").html("Valid");
     return isValid; //return true if all above statements are ok.
 }
 
