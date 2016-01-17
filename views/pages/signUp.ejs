@@ -8,8 +8,9 @@
     <!-- CSS -->
     <!-- load bootstrap and custom stylesheet -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
     <link rel="stylesheet" href="stylesheets/main.css">
-    <script type="text/javascript" src="js/view-db-items.js"></script>
+    <script type="text/javascript" src="js/user-auth.js"></script>
 
 </head>
 
@@ -22,16 +23,24 @@
     <div class="container">
         <div class="jumbotron">
             <h1 style="font-size: 210%;">Sign up for VoteOr</h1>
-            <form method="post" action="/addUser">
-                Email:<br>
-                <input type="text" name="nuEmail"><br>
-                Name:<br>
-                <input type="text" name="nuName"><br>
-                Password:<br>
-                <input type="text" name="nuPass"><br>
-                Confirm Password:<br>
-                <input type="text" name="nuPassConfirm"><br>
+            <!--<form name="newUser" method="post" action="/addUser" onsubmit= "return validateNewUser()">-->
+            <!--<form onsubmit = "validateNewUser()">-->
+            <form id="nUser">
+                Email:
+                <br>
+                <input type="text" name="nuEmail">
+                <br> Name:
+                <br>
+                <input type="text" name="nuName">
+                <br> Password:
+                <br>
+                <input type="text" name="nuPass">
+                <br> Confirm Password:
+                <br>
+                <input type="text" name="nuPassConfirm">
+                <br>
                 <input type="submit" value="Submit">
+                <div id="database-data">Data</div>
             </form>
             <br>
         </div>

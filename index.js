@@ -78,6 +78,9 @@ app.post("/addPoll", function(req, res){
 })
 app.post("/addUser", function(req, res){
   console.log("Add User"); //todo
+  console.log(req.body);
+  console.log(req.body.nuName + " " + req.body.nuEmail + " " + req.body.nuPass + " " + req.body.nuPassConfirm);
+  res.send(true);  //send success value for the AJAX post
 })
 app.post("/logInUser", function(req, res){
   console.log("Log In");  //todo
