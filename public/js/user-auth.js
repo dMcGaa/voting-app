@@ -15,6 +15,20 @@ $(document).ready(function() {
         })
         e.preventDefault(); //must have to prevent form from submitting
     })
+    $("#eUser").submit(function(e) {
+        // alert("form submitted");
+        $.ajax({
+            type: "POST",
+            url: "/logInUser",
+            data: $("#eUser").serialize(),
+            success: function(data) {
+                $("#database-message").html("Logged In");
+                $("#eUser").hide();
+                // checkUser();
+            }
+        })
+        e.preventDefault(); //must have to prevent form from submitting
+    })
 
 })
 

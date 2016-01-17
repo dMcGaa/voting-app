@@ -92,6 +92,7 @@ app.post("/addUser", function(req, res){
 })
 app.post("/logInUser", function(req, res){
   console.log("Log In");  //todo
+  res.send(true);  //send success value for the AJAX post
 })
 app.post("/loadDatabase", function(req, res){
   console.log("load database was clicked");
