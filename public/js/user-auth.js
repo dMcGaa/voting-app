@@ -2,7 +2,6 @@ $(document).ready(function() {
     $("#database-data").html("test");
 
     $("#nUser").submit(function(e) {
-        // alert("form submitted");
         $.ajax({
             type: "POST",
             url: "/addUser",
@@ -15,26 +14,6 @@ $(document).ready(function() {
         })
         e.preventDefault(); //must have to prevent form from submitting
     })
-    $("#eUser").submit(function(e) {
-        // alert("form submitted");
-        $.ajax({
-            type: "POST",
-            url: "/logInUser",
-            data: $("#eUser").serialize(),
-            success: function(data) {
-                if (data === "error") {
-
-                }
-                else {
-                    $("#database-message").html("Logged in as: " + data);
-                    $("#eUser").hide();
-                    // checkUser();
-                }
-            }
-        })
-        e.preventDefault(); //must have to prevent form from submitting
-    })
-
 })
 
 //detect if client supports local storage
@@ -49,25 +28,11 @@ else {
     //localStorage capable
 }
 
-function userLogin() {
-    var promise = promiseLogin();
-    promise.success(function(data) {
-        $("#database-data").html(JSON.stringify(data));
-    })
-}
-
 function checkUser() {
     var promise = promiseCheckUser();
     promise.success(function(data) {
         $("#database-data").html(JSON.stringify(data));
     })
-}
-
-function promiseLogin() {
-    return $.ajax({
-        url: "/viewAllPolls",
-        type: "POST"
-    });
 }
 
 function promiseCheckUser() {
@@ -100,8 +65,3 @@ function validateNewUser() {
     // $("#database-data").html("Valid");
     return isValid; //return true if all above statements are ok.
 }
-
-$("#nUser").submit(function() {
-    // alert("form submitted");
-    $.get("/");
-})
