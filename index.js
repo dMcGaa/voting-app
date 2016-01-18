@@ -91,8 +91,20 @@ app.post("/addUser", function(req, res){
   // res.send(true);  //send success value for the AJAX post
 })
 app.post("/logInUser", function(req, res){
+  var loginUser = {};
+  loginUser.name = req.body.logInName;
+  loginUser.pass = req.body.logInPass;
   console.log("Log In");  //todo
-  res.send(true);  //send success value for the AJAX post
+  mongoLogInUser(loginUser, function(data){
+    console.log("done loading");
+    if(data.length === 1){
+      res.send(loginUser.name);  //plus the authenticated token for a cookie
+    }
+    else{
+      res.send("error");
+    }
+  });
+  // res.send(true);  //send success value for the AJAX post
 })
 app.post("/loadDatabase", function(req, res){
   console.log("load database was clicked");
@@ -291,5 +303,19 @@ function mongoCheckUser(uName, callback) {
       mongoTemp = docs;
       console.log(JSON.stringify(mongoTemp));
       callback();//callback once response is obtained (Asynchronous)
+    })
+}
+
+function mongoLogInUser(loginUser, callback) {
+    var collection = dbConn.collection("votingapp");
+    //read from collection
+    collection.find({
+      uName: loginUser.name,
+      uPass: loginUser.pass
+    }).toArray(function(err, docs) {
+      if (err) throw err;
+      // mongoTemp = docs;
+      console.log(JSON.stringify(docs));
+      callback(docs);//callback once response is obtained (Asynchronous)
     })
 }

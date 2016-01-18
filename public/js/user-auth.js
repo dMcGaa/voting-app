@@ -22,9 +22,14 @@ $(document).ready(function() {
             url: "/logInUser",
             data: $("#eUser").serialize(),
             success: function(data) {
-                $("#database-message").html("Logged In");
-                $("#eUser").hide();
-                // checkUser();
+                if (data === "error") {
+
+                }
+                else {
+                    $("#database-message").html("Logged in as: " + data);
+                    $("#eUser").hide();
+                    // checkUser();
+                }
             }
         })
         e.preventDefault(); //must have to prevent form from submitting
