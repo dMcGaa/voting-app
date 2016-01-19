@@ -31,7 +31,7 @@ function viewAllPolls() {
     
 }
 
-function viewAllPolls() {
+function viewOnePoll() {
     var promise = promiseOnePoll();
     promise.success(function (data){
         $("#database-data").html(JSON.stringify(data));
@@ -54,7 +54,7 @@ function promiseAllPolls(){
 
 function promiseOnePoll(){
     return $.ajax({
-        url: "/viewAllPolls",
+        url: "/viewOnePoll",
         type: "POST"
     });
 }
