@@ -172,6 +172,18 @@ app.get('/viewAjax/', function(request, response) {
 app.get('/viewPolls/', function(request, response) {
   response.render('pages/viewPolls');
 });
+app.get('/viewPoll/:pollId', function(request, response, next) {
+  var requestedPoll = request.params.pollId;
+  console.log(requestedPoll);
+  mongoFindOnePoll(requestedPoll, function(err) {
+    if (err) throw err;
+    console.log("Find status: " + JSON.stringify(mongoTemp));
+    response.render('pages/viewPoll', {
+      requestedPoll: mongoTemp
+    }); //add object to html
+  });
+  // response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
+});
 app.get('/takePoll/:pollId', function(request, response, next) {
   var requestedPoll = request.params.pollId;
   console.log(requestedPoll);
