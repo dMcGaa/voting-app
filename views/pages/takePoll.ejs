@@ -27,9 +27,9 @@
             <h1 style="font-size: 210%;">Take Poll</h1>
             <div id="database-status">Status</div>
             <div id="database-data">Data</div>
-            <div id="poll-number">Poll ID:
-                <%=JSON.stringify(requestedPoll)%>
-            </div>
+            <div id="poll-number">Poll ID:<%=JSON.stringify(requestedPoll[0]["_id"])%></div>
+            <div>Poll Name: <%=JSON.stringify(requestedPoll[0]["poll_name"])%></div>
+            <div>Poll Options: <%=JSON.stringify(requestedPoll[0]["poll_options"])%></div>
             <div id="database-message">Message</div>
         </div>
     </div>

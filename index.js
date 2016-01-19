@@ -179,7 +179,7 @@ app.get('/takePoll/:pollId', function(request, response, next) {
     if (err) throw err;
     console.log("Find status: " + JSON.stringify(mongoTemp));
     response.render('pages/takePoll', {
-      requestedPoll: requestedPoll
+      requestedPoll: mongoTemp
     }); //add object to html
   });
   // response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
