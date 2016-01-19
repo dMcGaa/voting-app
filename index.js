@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient,
   test = require('assert');
+var ObjectId = require('mongodb').ObjectId;
 
 var bodyParser = require('body-parser');
 
@@ -33,20 +34,22 @@ app.use(function(req, res, next) {
 });
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 
-app.post("/addElement", function(req, res){
+app.post("/addElement", function(req, res) {
   var addVar = {};
   addVar.vName = req.body.voteName;
   addVar.vQty = parseInt(req.body.voteQty);
-  
+
   console.log("adding element");
-  mongoAdd(addVar, function(){
+  mongoAdd(addVar, function() {
     console.log("done adding");
     // res.send(mongoTemp);
   });
 })
-app.post("/addPoll", function(req, res){
+app.post("/addPoll", function(req, res) {
   var addPoll = {
     pollName: "",
     pollOptions: []
@@ -55,28 +58,28 @@ app.post("/addPoll", function(req, res){
   addPoll.pollName = req.body.pQuest;
   var option = [];
   var tempStr = "";
-  
+
   //regex to get all "pOption"
   tempStr = req.body.pOption1;
   option.push(tempStr);
   option.push(0); //initialize vote to 0
   addPoll.pollOptions.push(option);
   console.log(addPoll.pollOptions);
-  
+
   option = [];
   tempStr = req.body.pOption2;
   option.push(tempStr);
   option.push(0); //initialize vote to 0
   addPoll.pollOptions.push(option);
   console.log(addPoll.pollOptions);
-  
+
   console.log("adding poll " + JSON.stringify(addPoll));
-  mongoAddPoll(addPoll, function(){
+  mongoAddPoll(addPoll, function() {
     console.log("done adding poll");
     // res.send(mongoTemp);
   });
 })
-app.post("/addUser", function(req, res){
+app.post("/addUser", function(req, res) {
   console.log("Add User"); //todo
   console.log(req.body);
   var newUser = {};
@@ -84,57 +87,57 @@ app.post("/addUser", function(req, res){
   newUser.email = req.body.nuEmail;
   newUser.passw = req.body.nuPass;
   console.log(newUser);
-  mongoAddUser(newUser, function(){
+  mongoAddUser(newUser, function() {
     console.log("done adding user");
     res.send(mongoTemp);
   });
   // res.send(true);  //send success value for the AJAX post
 })
-app.post("/logInUser", function(req, res){
+app.post("/logInUser", function(req, res) {
   var loginUser = {};
   loginUser.name = req.body.logInName;
   loginUser.pass = req.body.logInPass;
-  console.log("Log In");  //todo
-  mongoLogInUser(loginUser, function(data){
+  console.log("Log In"); //todo
+  mongoLogInUser(loginUser, function(data) {
     console.log("done loading");
-    if(data.length === 1){
-      res.send(loginUser.name);  //plus the authenticated token for a cookie
+    if (data.length === 1) {
+      res.send(loginUser.name); //plus the authenticated token for a cookie
     }
-    else{
+    else {
       res.send("error");
     }
   });
   // res.send(true);  //send success value for the AJAX post
 })
-app.post("/loadDatabase", function(req, res){
+app.post("/loadDatabase", function(req, res) {
   console.log("load database was clicked");
-  mongoFind(function(){
+  mongoFind(function() {
     console.log("done loading");
     res.send(mongoTemp);
   });
 })
 
-app.post("/viewAllPolls", function(req, res){
+app.post("/viewAllPolls", function(req, res) {
   console.log("retrieving all polls");
-  mongoFindPoll(function(){
+  mongoFindPoll(function() {
     console.log("done loading");
     res.send(mongoTemp);
   });
 })
-app.post("/checkUser", function(req, res){
+app.post("/checkUser", function(req, res) {
   console.log("checking db user");
   // console.log(req.body);
-  mongoCheckUser(req.body.nuName, function(){
+  mongoCheckUser(req.body.nuName, function() {
     console.log("done user search");
     res.send(mongoTemp);
   });
   // res.send(true);
 })
 
-app.post("/viewOnePoll", function(req, res){
+app.post("/viewOnePoll", function(req, res) {
   console.log("retrieving one poll");
   var reqPoll = req.body.pollNumber;
-  mongoFindOnePoll(reqPoll, function(){
+  mongoFindOnePoll(reqPoll, function() {
     console.log("done loading");
     res.send(mongoTemp);
   });
@@ -169,20 +172,17 @@ app.get('/viewAjax/', function(request, response) {
 app.get('/viewPolls/', function(request, response) {
   response.render('pages/viewPolls');
 });
-app.get('/takePoll/*', function(request, response) {
-  var str = request.url;
-  str = str.slice(("/takePoll/").length);
-  if (str.match(/poll/)){
-    str = str.slice(("poll").length);
-    requestedPoll = str;
-    console.log(requestedPoll);  
-    //get database poll
-    // response.render('pages/takePoll');
-  }
-  else{
-    str = "not valid url for poll"
-  }
-  response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
+app.get('/takePoll/:pollId', function(request, response, next) {
+  var requestedPoll = request.params.pollId;
+  console.log(requestedPoll);
+  mongoFindOnePoll(requestedPoll, function(err) {
+    if (err) throw err;
+    console.log("Find status: " + JSON.stringify(mongoTemp));
+    response.render('pages/takePoll', {
+      requestedPoll: requestedPoll
+    }); //add object to html
+  });
+  // response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
 });
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -192,130 +192,135 @@ app.listen(app.get('port'), function() {
 function mongoConnect() {
   MongoClient.connect(dbUrl, function(err, db) {
     test.equal(null, err);
-    dbConn = db;  //mongodb connection instance
+    dbConn = db; //mongodb connection instance
     // db.close();  //no need to close, let application termination handle this
   });
 }
 
 function mongoFind(callback) {
-    var collection = dbConn.collection("votingapp");
-    //read from collection
-    collection.find({
-      qty: {
-        $gt: 2
-      }
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      callback();//callback once response is obtained (Asynchronous)
-    })
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.find({
+    qty: {
+      $gt: 2
+    }
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    mongoTemp = docs;
+    console.log(JSON.stringify(mongoTemp));
+    callback(); //callback once response is obtained (Asynchronous)
+  })
 }
 
 function mongoAdd(addVar, callback) {
-    var testVar = {
-        item: addVar.vName ,
-        qty: addVar.vQty
-      }
+  var testVar = {
+    item: addVar.vName,
+    qty: addVar.vQty
+  }
 
-    var collection = dbConn.collection("votingapp");
-    //insert to collection
-    console.log("adding " + JSON.stringify(testVar));
-    collection.insert(testVar);
-    //catch WriteConcernException
-    callback();
+  var collection = dbConn.collection("votingapp");
+  //insert to collection
+  console.log("adding " + JSON.stringify(testVar));
+  collection.insert(testVar);
+  //catch WriteConcernException
+  callback();
 }
 
 function mongoAddPoll(addPoll, callback) {
-    var testVar = {
-        poll_name: addPoll.pollName,
-        poll_options: addPoll.pollOptions
-      }
+  var testVar = {
+    poll_name: addPoll.pollName,
+    poll_options: addPoll.pollOptions
+  }
 
-    var collection = dbConn.collection("votingapp");
-    //insert to collection
-    console.log("adding " + JSON.stringify(testVar));
-    collection.insert(testVar, function(err, docsInserted){
-      if (err) throw err;
-      // console.log(docsInserted); //view all insert
-      console.log(docsInserted.ops[0]._id); //view one insert, and parameters
-      //possibly have callback here, with return value and link to inserted poll.
-    });
-    //catch WriteConcernException
-    callback();
+  var collection = dbConn.collection("votingapp");
+  //insert to collection
+  console.log("adding " + JSON.stringify(testVar));
+  collection.insert(testVar, function(err, docsInserted) {
+    if (err) throw err;
+    // console.log(docsInserted); //view all insert
+    console.log(docsInserted.ops[0]._id); //view one insert, and parameters
+    //possibly have callback here, with return value and link to inserted poll.
+  });
+  //catch WriteConcernException
+  callback();
 }
 
 function mongoFindPoll(callback) {
-    var collection = dbConn.collection("votingapp");
-    //read from collection
-    collection.find({
-      poll_name: {
-        $exists: true
-      }
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      callback();//callback once response is obtained (Asynchronous)
-    })
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.find({
+    poll_name: {
+      $exists: true
+    }
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    mongoTemp = docs;
+    console.log(JSON.stringify(mongoTemp));
+    callback(); //callback once response is obtained (Asynchronous)
+  })
 }
 
-function mongoFindOnePoll(callback) {
-    var collection = dbConn.collection("votingapp");
-    //read from collection
-    collection.find({
-      poll_name: {
-        $exists: true
-      }
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      callback();//callback once response is obtained (Asynchronous)
-    })
+function mongoFindOnePoll(pollId, callback) {
+  var collection = dbConn.collection("votingapp");
+  console.log("looking for: " + pollId + "(" + typeof(pollId) + ")");
+  //read from collection
+  collection.find({
+    // _id: pollId
+    _id: ObjectId(pollId),
+    poll_name: {
+      $exists: true
+    }
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    mongoTemp = docs;
+    console.log(JSON.stringify(mongoTemp));
+    callback(); //callback once response is obtained (Asynchronous)
+  })
 }
+
 function mongoAddUser(newUser, callback) {
-    var testVar = {
-        uName: newUser.name,
-        uEmail: newUser.email,
-        uPass: newUser.passw
-      }
+  var testVar = {
+    uName: newUser.name,
+    uEmail: newUser.email,
+    uPass: newUser.passw
+  }
 
-    var collection = dbConn.collection("votingapp");
-    //insert to collection
-    console.log("adding " + JSON.stringify(testVar));
-    collection.insert(testVar, function(err, docsInserted){
-      if (err) throw err;
-      // console.log(docsInserted); //view all insert
-      console.log(docsInserted.ops[0]._id); //view one insert, and parameters
-      //possibly have callback here, with return value and link to inserted poll.
-    });
-    //catch WriteConcernException
-    callback();
+  var collection = dbConn.collection("votingapp");
+  //insert to collection
+  console.log("adding " + JSON.stringify(testVar));
+  collection.insert(testVar, function(err, docsInserted) {
+    if (err) throw err;
+    // console.log(docsInserted); //view all insert
+    console.log(docsInserted.ops[0]._id); //view one insert, and parameters
+    //possibly have callback here, with return value and link to inserted poll.
+  });
+  //catch WriteConcernException
+  callback();
 }
+
 function mongoCheckUser(uName, callback) {
-    var collection = dbConn.collection("votingapp");
-    //read from collection
-    collection.find({
-      uName: uName
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      mongoTemp = docs;
-      console.log(JSON.stringify(mongoTemp));
-      callback();//callback once response is obtained (Asynchronous)
-    })
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.find({
+    uName: uName
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    mongoTemp = docs;
+    console.log(JSON.stringify(mongoTemp));
+    callback(); //callback once response is obtained (Asynchronous)
+  })
 }
 
 function mongoLogInUser(loginUser, callback) {
-    var collection = dbConn.collection("votingapp");
-    //read from collection
-    collection.find({
-      uName: loginUser.name,
-      uPass: loginUser.pass
-    }).toArray(function(err, docs) {
-      if (err) throw err;
-      // mongoTemp = docs;
-      console.log(JSON.stringify(docs));
-      callback(docs);//callback once response is obtained (Asynchronous)
-    })
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.find({
+    uName: loginUser.name,
+    uPass: loginUser.pass
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    // mongoTemp = docs;
+    console.log(JSON.stringify(docs));
+    callback(docs); //callback once response is obtained (Asynchronous)
+  })
 }
