@@ -11,7 +11,15 @@ $(document).ready(function() {
                 else {
                     $("#database-message").html("Logged in as: " + data);
                     $("#eUser").hide();
+                    document.cookie="username=" + data + ";"; //cookie defaults to expire when browser closed
                     // checkUser();
+                    //referencing function from user-cookie.js
+                    var loggedIn = checkCookie();
+                    if (loggedIn){
+                        // alert("verified");
+                        // alert(loggedIn);
+                        window.location.href = "viewPolls"; //simulate a link click
+                    };  
                 }
             }
         })
