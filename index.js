@@ -93,6 +93,19 @@ app.post("/addUser", function(req, res) {
   });
   // res.send(true);  //send success value for the AJAX post
 })
+app.post("/castVote", function(req, res) {
+  console.log("Casting Vote...");
+  // console.log(req.body);
+  var castVote = {};
+  castVote.id = req.body.id;
+  castVote.option = req.body.vote;
+  console.log(castVote);
+  // mongoAddUser(newUser, function() {
+  //   console.log("done adding user");
+  //   res.send(mongoTemp);
+  // });
+  res.redirect("/viewPoll/"+castVote.id);
+})
 app.post("/logInUser", function(req, res) {
   var loginUser = {};
   loginUser.name = req.body.logInName;
@@ -306,6 +319,17 @@ function mongoAddUser(newUser, callback) {
     console.log(docsInserted.ops[0]._id); //view one insert, and parameters
     //possibly have callback here, with return value and link to inserted poll.
   });
+  //catch WriteConcernException
+  callback();
+}
+function mongoCastVote(castVote, callback) {
+  var collection = dbConn.collection("votingapp");
+  //insert to collection
+  console.log("adding " + JSON.stringify(castVote));
+  // collection.update(
+  //   {_id: ObjectId(castVote.id)},
+  //   { $inc: {poll_options[castVote.option]:1}}
+  // );
   //catch WriteConcernException
   callback();
 }

@@ -22,10 +22,13 @@
             <div id="poll-number">Poll ID:<%=JSON.stringify(requestedPoll[0]["_id"])%></div>
             <div>Poll Name: <%=JSON.stringify(requestedPoll[0]["poll_name"])%></div>
             <div>Poll Options:</div>
-            <form action="">
+            <form method="post" action="/castVote">
               <% for (option in requestedPoll[0]["poll_options"]){ %>
               <input type="radio" name="vote" value=<%=requestedPoll[0]["poll_options"][option][0] %>><%=requestedPoll[0]["poll_options"][option][0] %><br>
               <% } %>
+              <br>
+              <input type="text" name="id" style="display:none;" value=<%=requestedPoll[0]["_id"] %>>
+              <input type="submit" value="Cast Vote">
             </form>
             <div id="database-message">Message</div>
         </div>
