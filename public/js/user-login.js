@@ -6,7 +6,8 @@ $(document).ready(function() {
             data: $("#eUser").serialize(),
             success: function(data) {
                 if (data === "error") {
-
+                    $("#database-message").html("Invalid User Name or Password");
+                    $("#database-message").css("visibility", "visible");
                 }
                 else {
                     $("#database-message").html("Logged in as: " + data);
