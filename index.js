@@ -13,6 +13,7 @@ var userPw = process.env.MONGOLAB_UPW || "null";
 var dbUrl = 'mongodb://' + userName + ":" + userPw + "@" + "ds039125.mongolab.com:39125/mylonelydb";
 var mongoTemp = {};
 var requestedPoll = {};
+var lastUsedPollId = "";
 
 console.log(dbUrl);
 var dbConn;
@@ -58,7 +59,8 @@ app.post("/addPoll", function(req, res) {
   addPoll.pollName = req.body.pQuest;
   var option = [];
   var tempStr = "";
-
+  
+  console.log(JSON.stringify(req.body));
   //regex to get all "pOption"
   tempStr = req.body.pOption1;
   option.push(tempStr);
@@ -76,6 +78,7 @@ app.post("/addPoll", function(req, res) {
   console.log("adding poll " + JSON.stringify(addPoll));
   mongoAddPoll(addPoll, function() {
     console.log("done adding poll");
+    res.redirect("/viewPoll/"+lastUsedPollId);
     // res.send(mongoTemp);
   });
 })
@@ -264,10 +267,12 @@ function mongoAddPoll(addPoll, callback) {
     if (err) throw err;
     // console.log(docsInserted); //view all insert
     console.log(docsInserted.ops[0]._id); //view one insert, and parameters
+    lastUsedPollId = docsInserted.ops[0]._id;
+    callback();
     //possibly have callback here, with return value and link to inserted poll.
   });
   //catch WriteConcernException
-  callback();
+
 }
 
 function mongoFindPoll(callback) {
