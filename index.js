@@ -207,6 +207,12 @@ app.get('/takePoll/:pollId', function(request, response, next) {
   });
   // response.render('pages/takePoll', {requestedPoll: requestedPoll}); //add object to html
 });
+app.get('/eraseAllPolls/', function(request, response) {
+  mongoRemoveAllPolls(function(err){
+    if(err) throw err;
+    response.render('pages/index');  
+  })
+});
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -348,6 +354,16 @@ function mongoCheckUser(uName, callback) {
     console.log(JSON.stringify(mongoTemp));
     callback(); //callback once response is obtained (Asynchronous)
   })
+}
+function mongoRemoveAllPolls(callback) {
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.remove({
+    poll_name: {
+      $exists: true
+    }
+  })
+  callback(); //callback once response is obtained (Asynchronous)
 }
 
 function mongoLogInUser(loginUser, callback) {
