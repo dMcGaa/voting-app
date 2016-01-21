@@ -99,11 +99,10 @@ app.post("/castVote", function(req, res) {
   castVote.id = req.body.id;
   castVote.option = req.body.vote;
   console.log(castVote);
-  // mongoAddUser(newUser, function() {
-  //   console.log("done adding user");
-  //   res.send(mongoTemp);
-  // });
-  res.redirect("/viewPoll/"+castVote.id);
+  mongoCastVote(castVote, function() {
+    console.log("Done casting vote");
+    res.redirect("/viewPoll/"+castVote.id);
+  });
 })
 app.post("/logInUser", function(req, res) {
   var loginUser = {};
@@ -325,12 +324,15 @@ function mongoAddUser(newUser, callback) {
 }
 function mongoCastVote(castVote, callback) {
   var collection = dbConn.collection("votingapp");
-  //insert to collection
-  console.log("adding " + JSON.stringify(castVote));
-  // collection.update(
-  //   {_id: ObjectId(castVote.id)},
-  //   { $inc: {poll_options[castVote.option]:1}}
-  // );
+  console.log("Vote Input: " + JSON.stringify(castVote));
+  var tempStr = "poll_options." + castVote.option;
+  var incObj = {};
+  incObj[tempStr] = 1;
+  console.log("Vote String: " + tempStr);
+  collection.update(
+    {_id: ObjectId(castVote.id)},
+    { $inc: incObj}
+  );
   //catch WriteConcernException
   callback();
 }
