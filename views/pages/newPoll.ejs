@@ -3,7 +3,7 @@
 
 <head>
     <% include partials/head.ejs %>
-    <script type="text/javascript" src="js/view-db-items.js"></script>
+        <script type="text/javascript" src="js/add-poll.js"></script>
 </head>
 
 <body>
@@ -18,19 +18,23 @@
             <!--<h1 style="font-size: 210%;">Voting App Add New Poll</h1>-->
             <h2>New Poll</h2>
 
-            <form method="post" action="/addPoll">
+            <form id="poll-new" method="post" action="/addPoll">
                 Question:
                 <br>
                 <input type="text" name="pQuest">
                 <br> Options:
                 <br>
-                <input type="text" name="pOption1">
+                <div id="poll-options">
+                    <input type="text" name="pOption1">
+                    <br>
+                    <input type="text" name="pOption2">
+                    <br>
+                </div>
+                <button type='button' style="color:black;" id="poll-new-option">Add Option</button>
                 <br>
-                <input type="text" name="pOption2">
+                <input type="submit" style="color:black;" value="Submit">
                 <br>
-                <input type="submit" value="Submit">
             </form>
-            <br>
         </div>
     </div>
 
