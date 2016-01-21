@@ -3,7 +3,7 @@
 
 <head>
     <% include partials/head.ejs %>
-    <script type="text/javascript" src="js/p-view.js"></script>
+    <script type="text/javascript" src="js/poll-vote.js"></script>
 </head>
 
 <body>
@@ -16,13 +16,13 @@
         <div class="jumbotron">
 
 
-            <h1 style="font-size: 210%;">Take Poll</h1>
-            <div id="database-status">Status</div>
-            <div id="database-data">Data</div>
-            <div id="poll-number">Poll ID:<%=JSON.stringify(requestedPoll[0]["_id"])%></div>
-            <div>Poll Name: <%=JSON.stringify(requestedPoll[0]["poll_name"])%></div>
-            <div>Poll Options:</div>
-            <form method="post" action="/castVote">
+            <!--<h1 style="font-size: 210%;">Cast Your Vote!</h1>-->
+            <div id="poll-intro">Cast Your Vote!</div>
+            <!--<div id="database-status">Status</div>-->
+            <!--<div id="database-data">Data</div>-->
+            <div id="poll-name" style="font-size:210%"><%=JSON.stringify(requestedPoll[0]["poll_name"])%></div>
+            <!--<div>Poll Options:</div>-->
+            <form id="castVote" method="post" action="/castVote">
               <% for (option in requestedPoll[0]["poll_options"]){ %>
               <input type="radio" name="vote" value=<%=option%>><%=option%><br>
               <% } %>
@@ -30,7 +30,7 @@
               <input type="text" name="id" style="display:none;" value=<%=requestedPoll[0]["_id"] %>>
               <input type="submit" value="Cast Vote">
             </form>
-            <div id="database-message">Message</div>
+            <!--<div id="database-message">Message</div>-->
         </div>
     </div>
 
