@@ -24,7 +24,7 @@
             <div>Poll Options:</div>
             <form method="post" action="/castVote">
               <% for (option in requestedPoll[0]["poll_options"]){ %>
-              <input type="radio" name="vote" value=<%=requestedPoll[0]["poll_options"][option][0] %>><%=requestedPoll[0]["poll_options"][option][0] %><br>
+              <input type="radio" name="vote" value=<%=option%>><%=option%><br>
               <% } %>
               <br>
               <input type="text" name="id" style="display:none;" value=<%=requestedPoll[0]["_id"] %>>

@@ -53,27 +53,23 @@ app.post("/addElement", function(req, res) {
 app.post("/addPoll", function(req, res) {
   var addPoll = {
     pollName: "",
-    pollOptions: []
+    pollOptions: {}
   };
   //array of array for poll items and vote count
   addPoll.pollName = req.body.pQuest;
   var option = [];
   var tempStr = "";
   
+  // tempStr = req.body.pOption1;
   console.log(JSON.stringify(req.body));
   //regex to get all "pOption"
-  tempStr = req.body.pOption1;
-  option.push(tempStr);
-  option.push(0); //initialize vote to 0
-  addPoll.pollOptions.push(option);
-  console.log(addPoll.pollOptions);
+  for (var key in req.body){
+    if (req.body.hasOwnProperty(key) && key.match(/pOption/)){
+      console.log(key);
+      addPoll.pollOptions[req.body[key]] = 0;
+    }
+  }
 
-  option = [];
-  tempStr = req.body.pOption2;
-  option.push(tempStr);
-  option.push(0); //initialize vote to 0
-  addPoll.pollOptions.push(option);
-  console.log(addPoll.pollOptions);
 
   console.log("adding poll " + JSON.stringify(addPoll));
   mongoAddPoll(addPoll, function() {

@@ -16,6 +16,7 @@ $(document).ready(function() {
         newOption.name = "pOption" + optionCounter;
         $("#poll-options").append(newOption);
         $("#poll-options").append("<br>");
+        optionCounter += 1;
     })
 
 })
