@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include partials/head.ejs %>
+    <script type="text/javascript" src="js/p-view.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <% include partials/header.ejs %>
+    </header>
+
+    <div class="container">
+        <div class="jumbotron">
+
+
+            <h1 style="font-size: 210%;">Random Poll</h1>
+            <div id="poll-number">Poll ID:<%=JSON.stringify(requestedPoll[0]["_id"])%></div>
+            <div>Poll Name: <%=JSON.stringify(requestedPoll[0]["poll_name"])%></div>
+            <div>Poll Options:</div>
+            <form method="post" action="/castVote">
+              <% for (option in requestedPoll[0]["poll_options"]){ %>
+              <input type="radio" name="vote" value=<%=option%>><%=option%><br>
+              <% } %>
+              <br>
+              <input type="text" name="id" style="display:none;" value=<%=requestedPoll[0]["_id"] %>>
+              <input type="submit" value="Cast Vote">
+            </form>
+            <div id="database-message">Message</div>
+        </div>
+    </div>
+
+    <footer>
+        <% include partials/footer.ejs %>
+    </footer>
+
+</body>
+
+</html>

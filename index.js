@@ -213,6 +213,14 @@ app.get('/eraseAllPolls/', function(request, response) {
     response.render('pages/index');  
   })
 });
+app.get('/takeRandomPoll/', function(request, response) {
+  mongoOneRandom(function(err, docs){
+    if(err) throw err;
+    console.log(JSON.stringify(docs));
+    response.redirect('/takePoll/'+docs._id);
+    // response.send(JSON.stringify(docs));  
+  })
+});
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -306,6 +314,20 @@ function mongoFindOnePoll(pollId, callback) {
     mongoTemp = docs;
     console.log(JSON.stringify(mongoTemp));
     callback(); //callback once response is obtained (Asynchronous)
+  })
+}
+function mongoOneRandom(callback) {
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.aggregate([
+    {$match : {poll_name : { $exists: true}}}
+    // {$sample: { size: 1 }}
+    ]).toArray(function(err, docs) {
+    if (err) throw err;
+    var randomDoc = Math.floor((Math.random() * docs.length));
+    mongoTemp = docs[randomDoc];
+    console.log(JSON.stringify(mongoTemp));
+    callback(err, mongoTemp); //callback once response is obtained (Asynchronous)
   })
 }
 
