@@ -2,27 +2,58 @@
 <html lang="en">
 
 <head>
-    <% include partials/head.ejs %></head>
+    <% include partials/head.ejs %>
+        <script src="js/chart.min.js"></script>
+</head>
+
 <body>
-
-    <header>
-        <% include partials/header.ejs %>
-    </header>
-
     <div class="container">
-        <div class="jumbotron">
-            <h1 style="font-size: 210%;">Voting App View</h1>
-            <h2>View elements in database.</h2>
-            <p>One:
-                <%=JSON.stringify(mongoTemp)%>
-            </p>
-            <br>
+        <div class="jumbotron text-center">
+            <h1 style="font-size: 210%;">Poll Results</h1>
+
+            <div id="canvas-holder">
+                <canvas id="chart-area" width="500" height="500" />
+            </div>
         </div>
     </div>
 
-    <footer>
-        <% include partials/footer.ejs %>
-    </footer>
+
+
+
+    <script>
+        var doughnutData = [{
+            value: 300,
+            color: "#F7464A",
+            highlight: "#FF5A5E",
+            label: "Red"
+        }, {
+            value: 50,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "Green"
+        }, {
+            value: 100,
+            color: "#FDB45C",
+            highlight: "#FFC870",
+            label: "Yellow"
+        }, {
+            value: 40,
+            color: "#949FB1",
+            highlight: "#A8B3C5",
+            label: "Grey"
+        }, {
+            value: 120,
+            color: "#4D5360",
+            highlight: "#616774",
+            label: "Dark Grey"
+        }];
+        window.onload = function() {
+            var ctx = document.getElementById("chart-area").getContext("2d");
+            window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
+                responsive: true
+            });
+        };
+    </script>
 
 </body>
 

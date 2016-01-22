@@ -3,3 +3,6 @@
     color: black;
     border-radius: 10px;
 }
+#canvas-holder{
+	width:30%;
+}
