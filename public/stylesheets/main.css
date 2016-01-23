@@ -1,8 +1,12 @@
+body{
+    margin: 0 auto;
+}
 .btn {
     background-color: gray;
     color: black;
     border-radius: 10px;
 }
 #canvas-holder{
+    margin: 0 auto;
 	width:30%;
 }
