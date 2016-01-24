@@ -1,6 +1,12 @@
 var optionCounter = 3; //two options exist by default, start at 3
 
 $(document).ready(function() {
+    if (checkCookie() !==""){
+        $("#poll-new").css("display", "block");
+        $("#control-login").css("display", "none");
+    }
+    
+    
     $('input[type="submit"]').prop('disabled', true);
     $('input[type="text"]').keyup(function() {
         if ($(this).val() != '') {
