@@ -19,7 +19,7 @@ $(document).ready(function() {
                     if (loggedIn){
                         // alert("verified");
                         // alert(loggedIn);
-                        window.location.href = "viewPolls"; //simulate a link click
+                        window.location.href = "/viewUserPolls"; //simulate a link click
                     };  
                 }
             }

@@ -136,6 +136,16 @@ app.post("/viewAllPolls", function(req, res) {
     res.send(mongoTemp);
   });
 })
+
+app.post("/viewUserPolls", function(req, res) {
+  var userName = req.body.userName;
+  console.log("retrieving all polls for " + userName);
+  mongoFindUserPoll(userName, function() {
+    console.log("done loading");
+    res.send(mongoTemp);
+  });
+})
+
 app.post("/checkUser", function(req, res) {
   console.log("checking db user");
   // console.log(req.body);
@@ -183,6 +193,9 @@ app.get('/viewAjax/', function(request, response) {
 });
 app.get('/viewPolls/', function(request, response) {
   response.render('pages/viewPolls');
+});
+app.get('/viewUserPolls/', function(request, response) {
+  response.render('pages/viewUserPolls');
 });
 app.get('/viewPoll/:pollId', function(request, response, next) {
   var requestedPoll = request.params.pollId;
@@ -293,6 +306,22 @@ function mongoFindPoll(callback) {
     poll_name: {
       $exists: true
     }
+  }).toArray(function(err, docs) {
+    if (err) throw err;
+    mongoTemp = docs;
+    console.log(JSON.stringify(mongoTemp));
+    callback(); //callback once response is obtained (Asynchronous)
+  })
+}
+
+function mongoFindUserPoll(userName, callback) {
+  var collection = dbConn.collection("votingapp");
+  //read from collection
+  collection.find({
+    poll_name: {
+      $exists: true
+    },
+    poll_user: userName
   }).toArray(function(err, docs) {
     if (err) throw err;
     mongoTemp = docs;
