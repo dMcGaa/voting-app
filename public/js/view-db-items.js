@@ -25,9 +25,23 @@ function viewAllPolls() {
     $("#database-data").html("Data");
     var promise = promiseAllPolls();
     promise.success(function(data) {
-        $("#database-stuff").html("Done");
-        $("#database-resp").html("Finished, results: " + data.length);
-        $("#database-data").html(JSON.stringify(data));
+        // $("#database-data").html(data.length);
+        $("#database-data").html("");
+        for (var i = 0; i < data.length; i++){
+            var pollIdLink = "/viewPoll/" + data[i]["_id"];
+            var pollName = data[i]["poll_name"];
+            var newPoll = document.createElement('a');
+            newPoll.href = pollIdLink;
+            newPoll.innerHTML = pollName;
+            var votePoll = document.createElement('a');
+            votePoll.href = "/takePoll/" + data[i]["_id"];
+            votePoll.innerHTML = "(Vote)";
+            $("#database-data").append(newPoll);
+            $("#database-data").append(" ");
+            $("#database-data").append(votePoll);
+            $("#database-data").append("<br>");
+            // $("#database-data").append("<div>TEMP<div>");
+        }
     })
 
 }

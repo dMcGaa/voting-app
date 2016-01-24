@@ -6,7 +6,7 @@
     <script type="text/javascript" src="js/view-db-items.js"></script>
 </head>
 
-<body>
+<body onload="viewAllPolls()">
 
     <header>
         <% include partials/header.ejs %>
@@ -14,13 +14,8 @@
 
     <div class="container">
         <div class="jumbotron">
-            <!--<h1><a href = "/">Home</a></h1>-->
-            <!--<h1 style="font-size: 210%;">Voting App View</h1>-->
-            <h2>View Polls</h2>
-            <button class="btn" id="test-btn" onclick="viewAllPolls()">My Polls</button>
-            <div id="database-stuff">Idle</div>
-            <div id="database-resp">Response</div>
-            <div id="database-data">Data</div>
+            <h2>All Polls:</h2>
+            <div id="database-data">No Polls in database?!</div>
             <br>
         </div>
     </div>
