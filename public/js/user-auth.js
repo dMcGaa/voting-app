@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#database-data").html("test");
+    // $("#database-data").html("test");
 
     $("#nUser").submit(function(e) {
         $.ajax({
