@@ -8,7 +8,7 @@ $(document).ready(function() {
         $("#header-signup").css("display", "none");
     }
     $("#header-logout").click(function(){
-        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"; //previous date will cause cookie to delete
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; //previous date will cause cookie to delete
         // window.location.href = "index"; //simulate a link click  
     })
     
