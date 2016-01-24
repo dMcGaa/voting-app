@@ -1,7 +1,9 @@
 var optionCounter = 3; //two options exist by default, start at 3
 
 $(document).ready(function() {
-    if (checkCookie() !==""){
+    var uName = checkCookie();
+    if (uName !==""){
+        $('input[name="userName"]').val(uName);
         $("#poll-new").css("display", "block");
         $("#control-login").css("display", "none");
     }

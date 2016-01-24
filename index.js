@@ -56,6 +56,7 @@ app.post("/addPoll", function(req, res) {
     pollOptions: {}
   };
   //array of array for poll items and vote count
+  addPoll.userName = req.body.userName;
   addPoll.pollName = req.body.pQuest;
   var option = [];
   var tempStr = "";
@@ -265,6 +266,7 @@ function mongoAdd(addVar, callback) {
 
 function mongoAddPoll(addPoll, callback) {
   var testVar = {
+    poll_user: addPoll.userName,
     poll_name: addPoll.pollName,
     poll_options: addPoll.pollOptions
   }
