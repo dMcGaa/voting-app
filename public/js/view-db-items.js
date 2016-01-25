@@ -49,18 +49,16 @@ function viewAllPolls() {
 function viewUserPolls() {
     var promise = promiseUserPolls();
     promise.success(function(data) {
-        // $("#database-data").html(data.length + JSON.stringify(data));
-        $("#database-data").html("");
+        $("#database-data").html(data.length + JSON.stringify(data));
+        // $("#database-data").html("");
         for (var i = 0; i < data.length; i++){
             var pollIdLink = "/viewPoll/" + data[i]["_id"];
             var pollName = data[i]["poll_name"];
-            
-            var someDiv = document.getElementById("database-data");
             var newPoll = document.createElement('a');
-            newPoll.setAttribute('href',pollIdLink);
+            newPoll.href = pollIdLink;
             newPoll.innerHTML = pollName;
-            someDiv.appendChild(newPoll);
-            someDiv.appendChild("<br>");
+            $("#user-polls").append(newPoll);
+            $("#user-polls").append("<br>");
             
             // var someDiv = document.getElementById("database-data");
             // var aTag = document.createElement('a');

@@ -1,6 +1,9 @@
 body{
     margin: 0 auto;
 }
+a{
+    color: black;
+}
 .btn {
     background-color: gray;
     color: black;
