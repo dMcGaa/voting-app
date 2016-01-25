@@ -20,8 +20,8 @@ function processData(){
     var optColor = "#A0A";
     for(var option in requestedPoll[0]["poll_options"]){
         console.log("processData " + option);
-        var optValue = requestedPoll[0]["poll_options"][option];
-        var optLabel = option;
+        var optValue = requestedPoll[0]["poll_options"][option]["count"];
+        var optLabel = requestedPoll[0]["poll_options"][option]["name"];
         if (optCount < specifiedColors.length){
             console.log(specifiedColors[optCount]);
             optColor = specifiedColors[optCount];

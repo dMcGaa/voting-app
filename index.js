@@ -386,7 +386,7 @@ function mongoAddUser(newUser, callback) {
 function mongoCastVote(castVote, callback) {
   var collection = dbConn.collection("votingapp");
   console.log("Vote Input: " + JSON.stringify(castVote));
-  var tempStr = "poll_options." + castVote.option;
+  var tempStr = "poll_options." + castVote.option + ".count";
   var incObj = {};
   incObj[tempStr] = 1;
   console.log("Vote String: " + tempStr);
