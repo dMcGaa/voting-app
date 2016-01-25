@@ -67,7 +67,9 @@ app.post("/addPoll", function(req, res) {
   for (var key in req.body){
     if (req.body.hasOwnProperty(key) && key.match(/pOption/)){
       console.log(key);
-      addPoll.pollOptions[req.body[key]] = 0;
+      addPoll.pollOptions[key] = {count:0, name:req.body[key]};
+      // addPoll.pollOptions[key]["name"] = req.body[key];
+      // addPoll.pollOptions[req.body[key]] = 0;
     }
   }
 

@@ -22,9 +22,20 @@ $(document).ready(function() {
         var newOption = document.createElement("input");
         newOption.type = "text";
         newOption.name = "pOption" + optionCounter;
+        var newOptionButton = document.createElement("button");
+        newOptionButton.style.color = "black";
+        newOptionButton.className = "bOptionButton";
+        var buttonText = document.createTextNode("-");
+        newOptionButton.id = "bOption" + optionCounter;
+        newOptionButton.type = "button";
+        newOptionButton.appendChild(buttonText);
         $("#poll-options").append(newOption);
+        // $("#poll-options").append(newOptionButton);
         $("#poll-options").append("<br>");
         optionCounter += 1;
+    })
+    $('.bOptionButton').click(function(){
+        alert("Test");
     })
 
 })
