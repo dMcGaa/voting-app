@@ -107,6 +107,18 @@ app.post("/castVote", function(req, res) {
     res.redirect("/viewPoll/"+castVote.id);
   });
 })
+app.post("/deletePoll", function(req, res) {
+  console.log("Casting Vote...");
+  // console.log(req.body);
+  var deletePoll = {};
+  deletePoll.id = req.body.pollId;
+  deletePoll.userName = req.body.userName;
+  console.log(deletePoll);
+  mongoRemoveOnePoll(deletePoll, function() {
+    console.log("Done deleting poll");
+    res.send("deleted");
+  });
+})
 app.post("/logInUser", function(req, res) {
   var loginUser = {};
   loginUser.name = req.body.logInName;
@@ -417,6 +429,18 @@ function mongoRemoveAllPolls(callback) {
     poll_name: {
       $exists: true
     }
+  })
+  callback(); //callback once response is obtained (Asynchronous)
+}
+
+function mongoRemoveOnePoll(removeObj, callback) {
+  var collection = dbConn.collection("votingapp");
+  collection.remove({
+    _id: ObjectId(removeObj.id),
+    poll_name: {
+      $exists: true
+    },
+    poll_user: removeObj.userName
   })
   callback(); //callback once response is obtained (Asynchronous)
 }

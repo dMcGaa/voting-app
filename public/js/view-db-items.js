@@ -2,6 +2,7 @@ $(document).ready(function() {
     // $("#database-stuff2").hide();
     $("#database-status").hide();
 
+
 })
 
 function loadDataP() {
@@ -55,16 +56,19 @@ function viewUserPolls() {
             var pollIdLink = "/viewPoll/" + data[i]["_id"];
             var pollName = data[i]["poll_name"];
             var newPoll = document.createElement('a');
+            var deletePoll = document.createElement('button');
             newPoll.href = pollIdLink;
             newPoll.innerHTML = pollName;
+            deletePoll.innerHTML = "delete";
+            deletePoll.style.color = "black";
+            deletePoll.id = data[i]["_id"];
+            deletePoll.addEventListener("click", function(){
+                deleteUserPoll(this);
+            });
             $("#user-polls").append(newPoll);
+            $("#user-polls").append("&nbsp; &nbsp; &nbsp; &nbsp;");
+            $("#user-polls").append(deletePoll);
             $("#user-polls").append("<br>");
-            
-            // var someDiv = document.getElementById("database-data");
-            // var aTag = document.createElement('a');
-            // aTag.setAttribute('href',"link.htm");
-            // aTag.innerHTML = "link text";
-            // someDiv.appendChild(aTag);
         }
     })
 
