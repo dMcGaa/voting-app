@@ -28,7 +28,7 @@ function viewAllPolls() {
     promise.success(function(data) {
         // $("#database-data").html(data.length);
         $("#database-data").html("");
-        for (var i = 0; i < data.length; i++){
+        for (var i = 0; i < data.length; i++) {
             var pollIdLink = "/viewPoll/" + data[i]["_id"];
             var pollName = data[i]["poll_name"];
             var newPoll = document.createElement('a');
@@ -51,24 +51,32 @@ function viewUserPolls() {
     var promise = promiseUserPolls();
     promise.success(function(data) {
         // $("#database-data").html(data.length + JSON.stringify(data));
-        $("#database-data").html("");
-        for (var i = 0; i < data.length; i++){
-            var pollIdLink = "/viewPoll/" + data[i]["_id"];
-            var pollName = data[i]["poll_name"];
-            var newPoll = document.createElement('a');
-            var deletePoll = document.createElement('button');
-            newPoll.href = pollIdLink;
-            newPoll.innerHTML = pollName;
-            deletePoll.innerHTML = "delete";
-            deletePoll.style.color = "black";
-            deletePoll.id = data[i]["_id"];
-            deletePoll.addEventListener("click", function(){
-                deleteUserPoll(this);
-            });
-            $("#user-polls").append(newPoll);
-            $("#user-polls").append("&nbsp; &nbsp; &nbsp; &nbsp;");
-            $("#user-polls").append(deletePoll);
-            $("#user-polls").append("<br>");
+        if (data.length > 0) {
+            $("#database-data").html("");
+            for (var i = 0; i < data.length; i++) {
+                var pollIdLink = "/viewPoll/" + data[i]["_id"];
+                var pollName = data[i]["poll_name"];
+                var onePoll = document.createElement('li');
+                onePoll.id = data[i]["_id"]; //use this to find and remove from DOM
+                var newPoll = document.createElement('a');
+                var deletePoll = document.createElement('button');
+                newPoll.href = pollIdLink;
+                newPoll.innerHTML = pollName;
+                deletePoll.innerHTML = "delete";
+                deletePoll.style.color = "black";
+                deletePoll.style.marginLeft = "10px";
+                deletePoll.id = data[i]["_id"];
+                deletePoll.addEventListener("click", function() {
+                    deleteUserPoll(this);
+                });
+                onePoll.appendChild(newPoll);
+                onePoll.appendChild(deletePoll);
+                // $("#user-polls").append(newPoll);
+                // $("#user-polls").append("&nbsp; &nbsp; &nbsp; &nbsp;");
+                // $("#user-polls").append(deletePoll);
+                // $("#user-polls").append("<br>");
+                $("#user-polls").append(onePoll);
+            }
         }
     })
 
@@ -102,7 +110,9 @@ function promiseUserPolls() {
         return $.ajax({
             type: "POST",
             url: "/viewUserPolls",
-            data: {userName: userName},
+            data: {
+                userName: userName
+            },
             success: function(data) {
                 if (data === "error") {
                     $("#database-message").html("Invalid User Name or Password");

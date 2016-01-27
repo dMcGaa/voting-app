@@ -19,7 +19,8 @@ $(document).ready(function() {
 function deleteUserPoll(poll) {
     var promise = promiseDeleteUserPolls(poll.id);
     promise.success(function(data) {
-        alert("poll deleted");
+        // alert("poll deleted");
+        $("#"+poll.id).remove();
     })
 
 }
